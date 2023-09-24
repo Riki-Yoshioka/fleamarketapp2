@@ -1,0 +1,17 @@
+# 仮想環境
+.venv/
+
+# Python が生成するキャッシュファイル
+__pycache__/
+
+# 環境変数
+.env
+
+# 静的ファイル
+staticfiles/
+
+# データベース
+db.sqlite3
+
+# macOS 固有のファイル
+.DS_Store
