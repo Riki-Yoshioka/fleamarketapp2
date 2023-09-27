@@ -1,0 +1,71 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/account_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="account-container">
+    <div class="account-items">
+        <div class="account-icon">
+            <img src="{{ user.icon_url }}">
+        </div>
+        <div class="account-detail-wrapper">
+            <div class="account-username">
+                {{ user.username }}
+            </div>
+            <div class="account-products_count">
+                出品 {{ user.products_count }}
+            </div>
+        </div>
+    </div>
+    {% if user == request.user %}
+    <a href="{% url 'main:account_update' %}" class="account-edit-profile-btn">編集する</a>
+    {% endif %}
+    <div class="account-profile-container">
+        <div class="account-profile">
+            <p class="account-profile-text">{{ user.profile|default:"まだ登録されていません" }}</p>
+            <p class="more-button">...もっと見る</p>
+        </div>
+    </div>
+</div>
+<div class="product-list-container">
+    <p class="exhibited-product">出品した商品</p>
+    <ul class="product-list">
+        {% for item in user.products_exhibited.all %}
+        <li class="product-item">
+            <a href="{% url 'main:product_detail' item.pk %}">
+                    <img src="{{ item.product_images.all.0.image.url }}" class="product-img">
+                <p class="product-price">{{ item.value }}円</p>
+                {% if item.sales_status != "on_display" %}
+                <div class="bg-green">
+                    <p class="product-status">SOLD</p>
+                </div>
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const moreBtn = document.querySelector('.more-button');
+        const accountProfile = document.querySelector('.account-profile-text');
+        const accountProfileStr = accountProfile.textContent;
+        const accountProfileLength = accountProfileStr.length;
+        if (accountProfileLength > 200) {
+            accountProfile.textContent = accountProfileStr.substring(0, 200) + '...';
+            moreBtn.addEventListener('click', function (ev) {
+                accountProfile.textContent = '{{user.profile}}';
+                moreBtn.style.display = 'none';
+            })
+        }
+        else {
+            moreBtn.style.display = 'none';
+        }
+    })
+</script>
+{% endblock %}

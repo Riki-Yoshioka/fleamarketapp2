@@ -1,0 +1,22 @@
+{% extends "account/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'account/css/verification_sent.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="verification-sent-container">
+    <h1>FreeMa</h1>
+    <div class="title">アカウント作成</div>
+    <div class="verification-sent-box">
+        <p class="verification-sent-text">確認のための電子メールを送信しました。提供されたリンクに従って、サインアッププロセスを確定してください。メインの受信トレイに確認メールが表示されない場合は、迷惑メールフォルダを確認してください。数分以内に確認メールが届かない場合は、弊社までご連絡ください。</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

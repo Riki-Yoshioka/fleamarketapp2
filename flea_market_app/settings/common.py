@@ -49,7 +49,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "main",  # 作成したアプリケーションを追加
     "accounts", # 同上
+    "django.contrib.sites", # django-allauth で使う
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SITE_ID = 1 # django.contrib.sites を使用するために必要
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'flea_market_app.urls'
@@ -74,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "main.context_processors.common_context",
             ],
         },
     },
@@ -133,3 +146,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "accounts.User"
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory" # アカウント作成時にメールアドレスの確認を行うための設定
+ACCOUNT_EMAIL_REQUIRED = True # 同上
+
+DEFAULT_FROM_EMAIL = "beengineer@example.com" # 確認メールの送信元
+ACCOUNT_FORMS = {
+    "signup": "accounts.forms.CustomSignupForm", # 今回使うアカウント登録用フォーム
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # ターミナル上にメールを表示するための設定
+
+ACCOUNT_AUTHENTICATION_METHOD = "username" # username ログイン
+ACCOUNT_USERNAME_REQUIRED = True
+
+LOGIN_REDIRECT_URL = "main:home" # ログイン後の遷移先を設定
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
+
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+LOGOUT_REDIRECT_URL = "/accounts/login/" # ログアウト後の遷移先を設定

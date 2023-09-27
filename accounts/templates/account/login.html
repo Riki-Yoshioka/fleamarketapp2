@@ -1,0 +1,50 @@
+{% extends "account/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'account/css/login.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="login-form-container">
+    <h1>FreeMa</h1>
+    <div class="title">ログイン</div>
+    <form method="POST">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="login-form-error">ユーザー名とパスワードが一致しません。</div>
+        {% endif %}
+        <div class="login-form-field">
+            {{ form.login }}
+        </div>
+        <div class="login-form-field">
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="login-form-btn">ログイン</button>
+    </form>
+    <p class="caption">
+        アカウントをお持ちでないですか？
+        <a href="{% url 'signup' %}" class="registration-link">
+            <span>新規登録</span>
+        </a>
+    </p>
+    <br>
+    <a href="{% url 'account_reset_password' %}" class="reset-link">
+        <span>パスワードリセット</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <div class="footer-container">
+        <a href="">利用規約</a>
+        ・
+        <a href="">プライバシーポリシー</a>
+    </div>
+</footer>
+{% endblock %}

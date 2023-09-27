@@ -1,0 +1,159 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/purchase_confirmation.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}購入内容の確認{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+    <p class="section-title">購入する商品</p>
+    <div>
+        <div class="product-image-wrapper">
+            <img src="{{ item.product_images.all.0.image.url }}">
+        </div>
+        <div class="product-detail-wrapper">
+            <p class="product-name">{{ item.name }}</p>
+            <p class="product-price">{{ item.value }}円</p>
+        </div>
+    </div>
+</div>
+<hr>
+{% if request.user.point >= 0 %}
+<div class="point-container">
+    {% if form.errors %}
+    <div class="error-message">{{ form.price.errors }}</div>
+    {% endif %}
+    <p class="section-title">ポイントの利用</p>
+    <p class="point-input-wrapper">
+        <label>
+            <input type="radio" name="point-type" value="all">今回の注文で利用可能なポイントをすべて利用する：{% if item.value > request.user.point %}{{ request.user.point }}{% else %}{{ item.value }}{% endif %}（円相当）
+        </label>
+    </p>
+    <p class="point-input-wrapper">
+        <label>
+            <input type="radio" name="point-type" value="some">
+            一部ポイントを利用する
+        </label>
+        <input class="input-point-form" id="input-point-form" type="number" max="{% if item.value > request.user.point %}{{ request.user.point }}{% else %}{{ item.value }}{% endif %}" min="1" placeholder="利用ポイント" disabled>
+    </p>
+    <p class="point-input-wrapper">
+        <label>
+            <input type="radio" name="point-type" value="none" checked>ポイントを利用しない
+        </label>
+    </p>
+</div>
+<hr>
+{% endif %}
+<div class="price-confirmation">
+    <p class="section-title">請求内容</p>
+    <div class="product-value-wrapper">
+        <p class="value-section-title">商品の値段</p>
+        <p class="product-value">{{ item.value }}円</p>
+    </div>
+    {% if request.user.point > 0 %}
+    <div class="use-point-wrapper">
+        <p class="point-section-title">利用ポイントによる割引</p>
+        <p class="point"><span id="point-amount">0</span>円</p>
+    </div>
+    {% endif %}
+    <div class="billing-amount-wrapper">
+        <p class="billing-section-title">ご請求金額</p>
+        <p class="billing-amount"><span id="billing-amount">{{ item.value }}</span>円</p>
+    </div>
+</div>
+<form method="POST" id="product-buy-form">
+    {% csrf_token %}
+    {{ form.point }}
+    {{ form.total_amount }}
+    <button type="submit" class="product-buy-btn" id="product-buy-btn">受取住所の入力へ</button>
+</form>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+{% if request.user.point >= 0 %}
+<script>
+    const pointTypeChoice = document.getElementsByName("point-type");
+    const pointInput = document.getElementById("input-point-form");
+    const maxPoint = parseInt("{% if item.value > request.user.point %}{{ request.user.point }}{% else %}{{ item.value }}{% endif %}");
+    const submitBtn = document.getElementById("product-buy-btn");
+    let usePoint = 0;
+    const billingAmountInput = document.getElementById("id_total_amount");
+    const pointAmountInput = document.getElementById("id_point");
+    const billingAmountText = document.getElementById("billing-amount");
+    const pointAmountText = document.getElementById("point-amount");
+    // ポイント入力フォームの入力状態を管理する
+    function pointInputStatus(i) {
+        pointInput.disabled = pointTypeChoice[i].value !== "some"
+    }
+
+    function btnStatus(i) {
+        pointInput.addEventListener("change", function() {
+            submitBtn.disabled = usePoint > maxPoint && pointTypeChoice[i].value === "some"
+        })
+    }
+
+    // 購入価格を計算する
+    function calcBillingAmount() {
+        let paymentAmount = "{{ item.value }}";
+        if (pointTypeChoice[0].checked) {
+            paymentAmount -= maxPoint;
+            usePoint = maxPoint;
+        } else if (pointTypeChoice[1].checked  && pointInput.value) {
+            usePoint = parseInt(pointInput.value);
+            if (usePoint > 0 && usePoint <= maxPoint) {
+                paymentAmount -= usePoint;
+            }
+        } else {
+            paymentAmount = "{{ item.value }}";
+            usePoint = 0;
+        }
+        return paymentAmount;
+    }
+    // フォームに値をセットする
+    function setFormData() {
+        billingAmountInput.value = calcBillingAmount();
+        pointAmountInput.value = usePoint;
+    }
+    // ポイントと購入価格を表示する
+    function displayBilling() {
+        billingAmountText.textContent = calcBillingAmount();
+        pointAmountText.textContent = usePoint;
+    }
+
+    pointInput.addEventListener("change", function() {
+        displayBilling();
+        setFormData();
+    })
+
+    for (let i = 0; i < pointTypeChoice.length; i++) {
+        pointTypeChoice[i].addEventListener("click", function() {
+            pointInputStatus(i);
+            displayBilling();
+            setFormData();
+            btnStatus(i);
+        })
+    }
+
+    pointInput.addEventListener("change", function() {
+    displayBilling();
+    setFormData();
+    })
+</script>
+{% endif %}
+{% endblock %}

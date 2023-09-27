@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/product_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-nav">
+    <div>販売中の商品</div>
+    <p class="color-green">関連度順</p>
+</div>
+<div class="product-list-container">
+    <ul class="product-list">
+        {% for item in items %}
+        <li class="product-item">
+            <a href="{% url 'main:product_detail' item.pk %}">
+                <img src="{{ item.product_images.all.0.image.url }}" class="product-img">
+                <p class="product-price">{{ item.value }}円</p>
+                {% if item.sales_status != "on_display" %}
+                <div class="bg-green">
+                    <p class="product-status">SOLD</p>
+                </div>
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

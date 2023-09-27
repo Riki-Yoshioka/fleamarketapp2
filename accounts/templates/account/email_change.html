@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'account/css/email_change.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="{% url 'main:account' %}" class="header__link">
+            <i class="fas fa-arrow-left fa-2x"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}メールアドレスの変更{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="email-change-container">
+    <form method="POST">
+        <div class="current-email">現在のメールアドレスは{{ current_email }}です。</div>
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="email-reset-form-error">{{ form.email.errors }}</div>
+        {% endif %}
+        <div class="email-change-form">
+            {{ form.email }}
+        </div>
+        <button class="email-change-btn" type="submit">メールアドレスを変更</button>
+    </form>
+    <p class="cancel-link">
+        <a href="javascript:window.history.back()">
+            <span>キャンセル</span>
+        </a>
+    </p>
+</div>
+{% endblock %}

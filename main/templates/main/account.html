@@ -1,0 +1,70 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/account.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="account">
+    <a href="{% url 'main:account_detail' request.user.id %}" class="account-container">
+        <div class="account-icon">
+            <img src="{{ user.icon_url }}">
+        </div>
+        <div class="account-detail-wrapper">
+            <div class="account-detail-items">
+                <div class="account-username">
+                    {{ user.username }}
+                </div>
+                <div class="account-point">
+                    {{ user.point }} pt保有
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </a>
+    <div class="products-control-container">
+        <p class="products-control-title">商品管理</p>
+        <a href="{% url 'main:liked_list' %}" class="products-control-item">
+            <i class="fa-regular fa-heart fa-fw"></i>
+            <p class="products-control-text">いいねした商品</p>
+        </a>
+        <a href="{% url 'main:exhibited_list' %}" class="products-control-item">
+            <i class="fa-solid fa-store fa-fw"></i>
+            <p class="products-control-text">出品した商品</p>
+        </a>
+        <a href="{% url 'main:purchased_list' %}" class="products-control-item">
+            <i class="fa-solid fa-bag-shopping fa-fw"></i>
+            <p class="products-control-text">購入した商品</p>
+        </a>
+    </div>
+    <div class="account-settings-container">
+        <p class="account-settings-title">アカウントの設定</p>
+        <a href="{% url 'account_email_change' %}" class="account-settings-item">
+            <i class="fa-regular fa-envelope fa-fw"></i>
+            <p class="account-settings-text">メールアドレスの変更</p>
+        </a>
+        <a href="{% url 'change_password' %}" class="account-settings-item">
+            <i class="fa-solid fa-asterisk fa-fw"></i>
+            <p class="account-settings-text">パスワードの変更</p>
+        </a>
+    </div>
+    <div class="others-container">
+        <div class="others-item rule">
+            <a href="{% url 'main:terms' %}" class="terms">利用規約</a>
+            <p>・</p>
+            <a href="{% url 'main:privacy_policy' %}" class="policy">プライバシーポリシー</a>
+        </div>
+        <div class="others-item">
+            <form action="{% url 'account_logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="logout-link">ログアウト</button>
+            </form>
+        </div>
+        <div class="others-item">
+            <p class="account-delete-text">アカウントの削除は</p>
+            <a href="{% url 'main:account_delete' %}" class="account-delete-link">こちら</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

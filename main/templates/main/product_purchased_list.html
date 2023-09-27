@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/product_purchased_list.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}購入した商品{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="product-list-container">
+    <div class="tab-container">
+        <div class="tab active" data-delivery-status="before_shipping">発送待ち</div>
+        <div class="tab" data-delivery-status="other">過去の取引</div>
+        <div class="underline"></div>
+    </div>
+    <ul class="product-list">
+        {% for product in purchased_products %}
+        <li class="product-item">
+            <a href="{% url 'main:product_detail' product.pk %}">
+                <img src="{{ product.product_images.all.0.image.url }}" class="product-img">
+                <p class="product-price">{{ product.value }}円</p>
+                {% if product.sales_status != "on_display" %}
+                <div class="bg-green">
+                    <p class="product-status">SOLD</p>
+                </div>
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/js/product_purchased_list.js' %}"></script>
+{% endblock %}

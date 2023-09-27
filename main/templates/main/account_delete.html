@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/account_delete.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fas fa-arrow-left fa-2x"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}アカウントの削除{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="account-delete">
+    <p class="account-delete-caution">アカウントを削除するとアカウントに紐づいたデータがすべて削除されます</p>
+    <div class="account-delete-detail">
+        <p class="account-delete-detail-text">削除するアカウント</p>
+        <div class="account-delete-detail-user">
+            <img src="{{ user.icon_url }}" class="account-delete-detail-user-icon">
+            <p class="account-delete-detail-user-name">{{ user.username }}</p>
+        </div>
+    </div>
+    <div class="account-delete-buttons">
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" value="アカウントを削除" class="account-delete-button-delete">
+        </form>
+        <a href="javascript:window.history.back()" class="account-delete-button-cancel">キャンセル</a>
+    </div>
+</div>
+{% endblock %}

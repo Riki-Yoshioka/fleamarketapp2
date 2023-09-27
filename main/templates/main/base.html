@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フリマアプリ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/base.css' %}">
+    {% block extra_style %}{% endblock %}
+</head>
+
+<body>
+    {% block header %}
+    {% if request.user.is_authenticated %}
+    <header class="header">
+        <div class="header__item">
+            <div class="header__title">
+                {% block header_title %}<a href="{% url 'main:home' %}">FreeMa</a>{% endblock %}
+            </div>
+            <div class="header__form">
+                <form action="{% url 'main:product_list' %}" method="GET">
+                    {{ search_form.keyword }}
+                </form>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    {% if request.user.is_authenticated %}
+    <footer class="footer">
+        <div class="footer__item">
+            <a href="{% url 'main:home' %}" class="footer__link">
+                <div class="footer__icon"><i class="fas fa-home"></i></div>
+                <div class="footer__label">ホーム</div>
+            </a>
+        </div>
+        <div class="footer__item">
+            <a href="{% url 'main:product_sell' %}" class="footer__link">
+                <div class="footer__icon"><i class="far fa-times-circle upload-icon"></i></div>
+                <div class="footer__label">出品</div>
+            </a>
+        </div>
+        <div class="footer__item">
+            <a href="{% url 'main:notification' %}" class="footer__link">
+                <div class="footer__icon"><i class="fa-regular fa-bell"></i></div>
+                <div class="footer__label">通知</div>
+            </a>
+        </div>
+        <div class="footer__item">
+            <a href="{% url 'main:account' %}" class="footer__link">
+                <div class="footer__icon"><i class="fas fa-user"></i></div>
+                <div class="footer__label">アカウント</div>
+            </a>
+        </div>
+    </footer>
+    {% else %}
+    <div class="others">
+        <div class="rules">
+            <a href="" class="terms">利用規約</a>・
+            <a href="" class="policy">プライバシーポリシー</a>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

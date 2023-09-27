@@ -1,0 +1,54 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/input_address.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}受取住所の確認{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="address-form">
+    {% csrf_token %}
+    <div class="purchase-username-container">
+        <p class="section-title">受取人名</p>
+        {{ form.last_name }}
+        {{ form.first_name }}
+        {{ form.last_name_kana }}
+        {{ form.first_name_kana }}
+    </div>
+    {% if form.errors %}
+    <ul>
+        <li>{{ form.first_name_kana.errors }}</li>
+        <li>{{ form.last_name_kana.errors }}</li>
+        <li>{{ form.postal_code.errors }}</li>
+        <li>{{ form.tel.errors }}</li>
+    </ul>
+    {% endif %}
+    <hr>
+    <div class="address-container">
+        <p class="section-title">お届け住所</p>
+        {{ form.postal_code }}
+        <div class="prefecture-form-wrapper">
+            <p>都道府県</p>
+            {{ form.prefecture }}
+        </div>
+        {{ form.address }}
+        {{ form.tel }}
+    </div>
+    <button type="submit" class="address-btn">受取住所の入力へ</button>
+</form>
+{% endblock %}
+
+{% block footer %}{% endblock %}

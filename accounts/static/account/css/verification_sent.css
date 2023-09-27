@@ -1,0 +1,23 @@
+h1 {
+    text-align: center;
+    padding: 0;
+}
+
+.verification-sent-container {
+    margin-top: 50px;
+    padding: 0 4vw;
+}
+
+.verification-sent-text {
+    text-align: center;
+}
+
+.title {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 30px;
+    text-align: center;
+    margin-bottom: 24px;
+}

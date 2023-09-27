@@ -1,0 +1,116 @@
+.header__item {
+    display: flex;
+    align-items: center;
+}
+
+.header__item i {
+    width: 10%;
+    text-align: center;
+}
+
+.header__item h1 {
+    width: 70%;
+    text-align: initial;
+}
+
+.header__item button {
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 1.25px;
+    color: #2B8F38;
+    border: none;
+    background: transparent;
+}
+
+.edit-profile {
+    padding: 0 4vw;
+}
+
+.icon-update-form-field {
+    position: relative;
+    height: 90px;
+    display: flex;
+    align-items: center;
+}
+
+#id_icon {
+    /* 写真のプレビューが見れるように透過 */
+    opacity: 0;
+    /* フォームが触れられるように調整 */
+    z-index: 1;
+    /* 円形に */
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    /* プレビューと被さるように位置を調整 */
+    position: absolute;
+    top: 24px;
+    left: 12px;
+}
+
+.preview-container {
+    opacity: 0.5;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* フォームと被さるように位置を調整 */
+    position: absolute;
+    top: 24px;
+    left: 12px;
+}
+
+#preview {
+    height: 56px;
+}
+
+.icon-update-form-field i {
+    position: relative;
+    top: 7px;
+    left: 29px;
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.username-update-form-field,
+.profile-update-form-field  {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.username-update-form-label,
+.profile-update-form-label {
+    position: absolute;
+    width: 70px;
+    background-color: white;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.4px;
+    color: rgba(0, 0, 0, 0.6);
+    top: -8px;
+    left: 20px;
+}
+
+#id_username,
+#id_profile {
+    width: 85%;
+    padding: 20px 6%;
+    border: solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+.username-update-form-counter,
+.profile-update-form-counter{
+    text-align: right;
+    margin-right: 30px;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.4px;
+    color: rgba(0, 0, 0, 0.6);
+}

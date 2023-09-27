@@ -1,0 +1,49 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/product_exhibited_list.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}出品した商品{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="product-list-container">
+    <div class="tab-container">
+        <div class="tab active" data-sales-status="all">すべて</div>
+        <div class="tab" data-sales-status="on_display">出品中</div>
+        <div class="tab" data-sales-status="sold">売却済</div>
+    </div>
+    <ul class="product-list">
+        {% for product in exhibited_products %}
+        <li class="product-item">
+            <a href="{% url 'main:product_detail' product.pk %}">
+                <img src="{{ product.product_images.all.0.image.url }}" alt="" class="product-img">
+                <p class="product-price">{{ product.value }}円</p>
+                {% if product.sales_status != "on_display" %}
+                <div class="bg-green">
+                    <p class="product-status">SOLD</p>
+                </div>
+                {% endif %}
+            </a>
+        </li>
+        {% empty %}
+        <p>いいねした商品はありません。</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/js/product_exhibited_list.js' %}"></script>
+{% endblock %}

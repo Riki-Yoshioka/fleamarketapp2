@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="new-product-container">
+    <h1>新着の商品</h1>
+    <ul class="new-product-list">
+        {% for item in items %}
+        <li class="new-product-item">
+            <a href="{% url 'main:product_detail' item.pk %}">
+                <img src="{{ item.product_images.first.image.url }}" class="new-product-img">
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="genre-container">
+    <h1>ジャンルから探す</h1>
+    <ul class="genre-list">
+        {% for genre in genres %}
+        <li class="genre-item">
+            <a href="{% url 'main:product_list' %}?genre={{ genre.name }}">
+                <input type="hidden" value="{{ genre.name }}">
+                <p class="genre-title">{{ genre.name }}</p>
+                <img src="{{ genre.image.url }}" class="genre-img">
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

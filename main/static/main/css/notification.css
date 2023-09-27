@@ -1,0 +1,52 @@
+.notification-list-container {
+    padding: 0 4vw;
+}
+
+.tab-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.tab {
+    flex-basis: 40%;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    z-index: -1;
+    margin-bottom: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.notification-wrapper {
+    display: flex;
+    align-items: start;
+}
+
+.product-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 16px;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.active {
+    border-bottom: 3px solid black;
+}

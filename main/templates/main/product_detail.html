@@ -1,0 +1,148 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<link rel="stylesheet" href="{% static 'main/css/product_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-overview-container">
+    {# 購入者に対するメッセージ #}
+    {% if item.orders_received.purchaser == request.user %}
+        {% if item.orders_received.delivery_status == "before_shipping" %}
+        <div class="order-information">
+            <p class="message-title">ただいま発送待ち</p>
+            <p class="message-detail">出品者が発送して届くまでしばらくお待ちください。</p>
+        </div>
+        {% elif item.orders_received.delivery_status == "shipped" %}
+        <div class="order-information">
+            <p class="message-title">発送済み</p>
+            <p class="message-detail">出品者は商品を発送しました。商品が届いたら受け取り報告を行ってください。</p>
+        </div>
+        {% elif item.orders_received.delivery_status == "delivered" %}
+        <div class="order-information">
+            <p class="message-title">取引が完了しました</p>
+            <p class="message-detail">ご利用ありがとうございました。</p>
+        </div>
+        {% endif %}
+    {# 出品者に対するメッセージ #}
+    {% elif item.exhibitor == request.user %}
+        {% if item.orders_received.delivery_status == "before_shipping" %}
+        <div class="order-information">
+            <p class="message-title">ただいま発送待ち</p>
+            <p class="message-detail">発送して完了報告を行ってください。</p>
+        </div>
+        {% elif item.orders_received.delivery_status == "shipped" %}
+        <div class="order-information">
+            <p class="message-title">発送済み</p>
+            <p class="message-detail">購入者が完了報告を行うまでしばらくお待ちください。</p>
+        </div>
+        {% elif item.orders_received.delivery_status == "delivered" %}
+        <div class="order-information">
+            <p class="message-title">取引が完了しました</p>
+            <p class="message-detail">取引お疲れ様でした。</p>
+        </div>
+        {% endif %}
+    {% endif %}
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for product_image in item.product_images.all %}
+            <div class="swiper-slide">
+                <img src="{{ product_image.image.url }}">
+                {% if item.sales_status != "on_display" %}
+                <div class="bg-green">
+                    <p class="sold">SOLD</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div class="product-detail-container">
+        <div>
+            <p class="product-name">{{ item.name }}</p>
+            <div class="product-detail-wrapper">
+                <p class="product-price">{{ item.value }}円</p>
+            </div>
+        </div>
+        <div class="product-like-button">
+            {% if item.is_liked %}
+            <form method="POST" action="{% url 'main:unlike' item.pk %}">
+                {% csrf_token %}
+                <div class="like-container">
+                    <button type="submit" class="product-unlike-btn"><i class="fa-solid fa-heart" style="color: #2B8F38;"></i></button>
+                    <p class="like-count-liked">{{ item.likes_count }}</p>
+                </div>
+            </form>
+            {% else %}
+            <form method="POST" action="{% url 'main:like' item.pk %}">
+                {% csrf_token %}
+                <div class="like-container">
+                    <button type="submit" class="product-like-btn"><i class="fa-regular fa-heart"></i></button>
+                    <p class="like-count">{{ item.likes_count }}</p>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<hr>
+<div class="product-description-container">
+    <p class="section-title">商品の説明</p>
+    <p class="product-description">{{ item.explanation }}</p>
+    <p class="product-upload-time">{{ item.uploaded_at|date:"Y/m/j" }}</p>
+</div>
+<hr>
+<div class="product-information-container">
+    <p class="section-title">商品の情報</p>
+    <div class="category-wrapper">
+        <p class="category-section-title">カテゴリー</p>
+        <p class="product-category">{{ item.genre.name }}</p>
+    </div>
+    <div class="status-wrapper">
+        <p class="stauts-section-title">商品の状態</p>
+        <p class="product-status">{{ item.get_product_status_display }}</p>
+    </div>
+</div>
+<hr>
+<div class="product-seller-container">
+    <p class="section-title">出品者</p>
+    <div class="seller-wrapper">
+        <a href="">
+            <img class="seller-img" src="{{ item.exhibitor.icon_url }}">
+        </a>
+        <p class="seller-name">{{ item.exhibitor.username }}</p>
+    </div>
+</div>
+{% if item.sales_status == "on_display" and item.exhibitor != request.user %}
+<a href="{% url 'main:purchase_confirmation' item.pk %}" class="product-buy-btn">購入手続きへ</a>
+{% endif %}
+
+{% if item.sales_status == "on_display" and item.exhibitor == request.user %}
+<form action="{% url 'main:delete_product' item.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="delete-product-btn">出品を取り下げる</button>
+</form>
+{% endif %}
+
+{% if item.exhibitor == request.user and item.orders_received.delivery_status == "before_shipping" %}
+<form action="{% url 'main:change_delivery_status' item.orders_received.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="change-status-btn">発送完了を報告する</button>
+</form>
+{% endif %}
+{% if item.orders_received.purchaser == request.user and item.orders_received.delivery_status == "shipped" %}
+<form action="{% url 'main:change_delivery_status' item.orders_received.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="change-status-btn">受取完了を報告する</button>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="{% static 'main/js/swiper.js' %}"></script>
+{% endblock %}

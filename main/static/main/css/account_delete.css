@@ -1,0 +1,91 @@
+.header__title {
+    padding: 0 4vw;
+    margin: 0 auto;
+}
+
+.account-delete {
+    padding: 0 4vw;
+}
+
+.account-delete-caution {
+    margin: 0;
+    padding-top: 120px;
+
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.account-delete-detail {
+    margin-top: 24px;
+}
+
+.account-delete-detail-text {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.4px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.account-delete-detail-user {
+    display: flex;
+    align-items: center;
+}
+
+.account-delete-detail-user-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+    margin-top: 12px;
+}
+
+.account-delete-detail-user-name {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.account-delete-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 130px;
+}
+
+.account-delete-button-delete {
+    padding: 10px 100px;
+    margin-bottom: 32.5px;
+    background: #2B8F38;
+    border-radius: 200px;
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 1.25px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.account-delete-buttons a {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 1.25px;
+    color: #2B8F38;
+}

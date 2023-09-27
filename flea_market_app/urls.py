@@ -19,11 +19,17 @@ from django.contrib import admin
 from django.conf import settings
 # include 追加
 from django.urls import path, include
+from django.contrib.staticfiles.urls import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include("main.urls")), # 追加
+    path("accounts/", include("accounts.urls")), # allauth にない機能でアカウントに関連するものを accounts アプリ内で実行するためのルーティング
+    path("accounts/", include("allauth.urls")), # allauth を使うためのルーティング
 ]
 # 追加
 
 if settings.DEBUG:
+    # 追加
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

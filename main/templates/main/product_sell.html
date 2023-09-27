@@ -1,0 +1,92 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/product_sell.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-xmark fa-2x"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}商品の情報を入力{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="product-form-container">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="product-image-container">
+            {{ image_form.management_form }}
+            {% for form in image_form.forms %}
+            <div class="image-form-wrapper">
+                <label for="{{ form.image.id_for_label }}">
+                    <i class="fa-regular fa-image image-icon"></i>
+                    {{ form.image }}
+                </label>
+                <img id="preview-{{ forloop.counter0 }}" src="#" class="preview-image">
+            </div>
+            {% endfor %}
+        </div>
+        <div class="product-information-container">
+            {% if image_form.non_form_errors %}
+                {% for error in image_form.non_form_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            {% else %}
+            {% endif %}
+            {% for field in text_form %}
+                {% for error in field.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            <p class="section-title">商品の情報</p>
+            <div class="category-wrapper">
+                <p class="category-section-title">カテゴリー</p>
+                <p class="product-category">{{ text_form.genre }}</p>
+            </div>
+            <div class="status-wrapper">
+                <p class="stauts-section-title">商品の状態</p>
+                <p class="product-status">{{ text_form.product_status }}</p>
+            </div>
+        </div>
+        <div class="product-description-container">
+            <p class="section-title">商品名と説明</p>
+            <div class="product-name-wrapper">
+                <p class="product-name-form">{{ text_form.name }}</p>
+                <p class="name-form-counter"><span id="name-form-count">0</span>/50</p>
+            </div>
+            <div class="product-explanation-wrapper">
+                <p class="product-explanation-form">{{ text_form.explanation }}</p>
+                <p class="explanation-form-counter"><span id="explanation-form-count">0</span>/500</p>
+            </div>
+        </div>
+        <div class="product-value-container">
+            <p class="section-title">販売価格</p>
+            <div class="product-value-wrapper">
+                <p class="product-value-form">{{ text_form.value }}</p>
+                <p class="product-value-restriction">¥300-999,999</p>
+                <div class="product-commission-wrapper">
+                    <p class="commission-section-title">販売手数料（販売価格の10%）</p>
+                    <p id="product-commission">-</p>
+                </div>
+                <div class="product-point-wrapper">
+                    <p class="point-section-title">獲得ポイント</p>
+                    <p id="product-point">-</p>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="product-sell-btn">商品を出品</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/product_sell.js' %}"></script>
+{% endblock %}

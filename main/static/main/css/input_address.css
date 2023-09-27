@@ -1,0 +1,52 @@
+.header__item {
+    justify-content: start;
+}
+
+.header__title {
+    margin-left: 30px;
+}
+
+.section-title {
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+.address-form {
+    padding: 0 4vw;
+}
+
+#id_last_name, #id_first_name, #id_last_name_kana,  #id_first_name_kana, #id_postal_code, #id_address, #id_tel {
+    box-sizing: border-box;
+    width: 336px;
+    height: 56px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    margin-bottom: 28px;
+    padding: 16px;
+}
+
+#id_prefecture {
+    width: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.prefecture-form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.address-btn {
+    text-align: center;
+    width: 92vw;
+    height: 36px;
+    line-height: 36px;
+    background-color: #2B8F38;
+    border: 1px solid #2B8F38;
+    color: white;
+    border-radius: 100vh;
+    margin-top: 50px;
+}

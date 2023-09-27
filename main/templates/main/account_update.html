@@ -1,0 +1,54 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/account_update.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="#" onclick="window.history.back(); return false;" class="header__link">
+            <i class="fa-solid fa-xmark fa-2x"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}プロフィールの編集{% endblock %}
+        </div>
+        <button type="submit" form="edit-form">保存</button>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="edit-profile">
+    <form method="POST" id="edit-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="user-update-form-wrapper">
+            <div class="icon-update-form-field">
+                {{ form.icon }}
+                <div class="preview-container">
+                    <img id="preview" src="{{ user.icon_url }}">
+                </div>
+                <i class="fa-regular fa-image"></i>
+            </div>
+            <div class="username-update-form-field">
+                <p class="username-update-form-label">
+                    ユーザー名
+                </p>
+                {{ form.username }}
+                <p class="username-update-form-counter"><span id="edit-username-count">{{ request.user.username|length }}</span>/50</p>
+            </div>
+            <div class="profile-update-form-field">
+                <p class="profile-update-form-label">
+                    紹介文(任意)
+                </p>
+                {{ form.profile }}
+                <p class="profile-update-form-counter"><span id="edit-profile-count">{{ request.user.profile|length }}</span>/500</p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'main/js/account_update.js' %}"></script>
+{% endblock %}

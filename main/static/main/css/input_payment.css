@@ -1,0 +1,75 @@
+.header__item {
+    justify-content: start;
+}
+
+.header__title {
+    margin-left: 30px;
+}
+
+.section-title {
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+.product-detail-container {
+    padding: 0 4vw;
+    margin-bottom: 16px;
+}
+
+.product-detail-container > div {
+    display: flex;
+}
+
+.product-image-wrapper {
+    margin-right: 12px;
+}
+
+.product-image-wrapper img {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.payment-method-container {
+    padding: 0 4vw;
+}
+
+.payment-section-title, .payment-remark {
+    margin: 12px 0;
+}
+
+.card-expiration-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#card-number, #security-code {
+    box-sizing: border-box;
+    width: 336px;
+    height: 56px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+#card-expiration {
+    width: 60px;
+}
+
+#card-number, .card-expiration-wrapper {
+    margin-bottom: 28px;
+}
+
+.card-submit-btn {
+    text-align: center;
+    width: 92vw;
+    height: 36px;
+    line-height: 36px;
+    background-color: #2B8F38;
+    border: 1px solid #2B8F38;
+    color: white;
+    border-radius: 100vh;
+    margin-top: 50px;
+}

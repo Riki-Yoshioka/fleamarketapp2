@@ -1,0 +1,112 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/input_payment.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="header__item">
+        <a href="javascript:window.history.back()" class="header__link">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <div class="header__title">
+            {% block header_title %}支払い方法の確認{% endblock %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+    <p class="section-title">購入する商品</p>
+    <div>
+        <div class="product-image-wrapper">
+            <img src="{{ item.product_images.first.image.url }}">
+        </div>
+        <div class="product-detail-wrapper">
+            <p class="product-name">{{ item.name }}</p>
+            <p class="product-price">{{ item.value }}円</p>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="payment-method-container">
+    <p class="payment-section-title">お支払い方法の確認</p>
+    <p class="payment-remark">お支払い方法は、クレジットカード払いのみとなります。</p>
+    <p class="section-title">クレジットカード情報</p>
+    <div class="card-wrapper">
+        <form method="POST" id="payment-form">
+            {% csrf_token %}
+            <div id="card-number"></div>
+            <div class="card-expiration-wrapper">
+                <p>有効期限</p>
+                <div id="card-expiration"></div>
+            </div>
+            <div id="security-code"></div>
+            <button type="submit" class="card-submit-btn">注文の確認へ</button>
+            <div id="card-errors" role="alert"></div>
+            <p>{{ message }}</p>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
+    const elements = stripe.elements();
+
+    const elementStyles = {
+        base: {
+            fontSize: "14px",
+        },
+        invalid: {
+            color: "red"
+        }
+    };
+
+    const cardNumberElement = elements.create("cardNumber", {
+        style: elementStyles
+    });
+    cardNumberElement.mount("#card-number");
+
+    const cardExpiryElement = elements.create("cardExpiry",{
+        style: elementStyles
+    });
+    cardExpiryElement.mount("#card-expiration");
+
+    const cardCvcElement = elements.create("cardCvc", {
+        style: elementStyles
+    });
+    cardCvcElement.mount("#security-code");
+
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const {token, error} = await stripe.createToken(cardNumberElement);
+
+        if (error) {
+            const errorElement = document.getElementById("card-errors");
+            errorElement.textContent = error.message;
+        } else {
+            stripeTokenHandler(token);
+        }
+    });
+
+    const stripeTokenHandler = (token) => {
+        const form = document.getElementById("payment-form");
+        const hiddenInput = document.createElement("input");
+        hiddenInput.setAttribute("type", "hidden");
+        hiddenInput.setAttribute("name", "stripeToken");
+        hiddenInput.setAttribute("value", token.id);
+        form.appendChild(hiddenInput);
+        form.submit();
+    }
+</script>
+{% endblock %}

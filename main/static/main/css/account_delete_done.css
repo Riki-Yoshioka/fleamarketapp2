@@ -1,0 +1,38 @@
+.account-delete_done {
+    padding: 0 4vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+h1 {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 28px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+h2 {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+p {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0.87);
+}

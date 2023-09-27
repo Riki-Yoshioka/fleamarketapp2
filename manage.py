@@ -9,9 +9,9 @@ def main():
     from dotenv import load_dotenv
 
     load_dotenv()
-    
+
     # "flea_market_app.settings.dev" に変更
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flea_market_app.settings.div')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flea_market_app.settings.dev')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

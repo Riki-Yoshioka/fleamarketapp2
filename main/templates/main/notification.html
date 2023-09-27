@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/notification.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="notification-list-container">
+    <div class="tab-container">
+        <div class="tab active" data-is-action="true">アクション</div>
+        <div class="tab" data-is-action="false">お知らせ</div>
+        <div class="underline"></div>
+    </div>
+    <ul class="notification-list">
+        {% for notification in notifications %}
+        <li class="notification-item">
+            <a href="{% url 'main:product_detail' notification.order.product.pk %}">
+                <div class="notification-wrapper">
+                    <img src="{{ notification.order.product.product_images.all.0.image.url }}" alt="" class="product-img">
+                    <div class="notification-message-wrapper">
+                        {% if notification.is_action %}
+                        <p class="notification-message">商品を発送して、発送を完了させましょう。</p>
+                        {% else %}
+                        <p class="notification-message">{{ notification.order.product.name }}が発送されました。</p>
+                        {% endif %}
+                        <p class="notification-time">{{ notification.created_at }}</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/notification.js' %}"></script>
+{% endblock %}

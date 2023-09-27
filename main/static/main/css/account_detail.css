@@ -1,0 +1,135 @@
+.account-container {
+    padding: 0 4vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-items {
+    display: flex;
+    justify-content: space-between;
+}
+
+.account-icon {
+    overflow: hidden;
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+}
+
+.account-icon img {
+    height: 56px;
+}
+.account-detail-wrapper {
+    align-self: center;
+    width: 80%;
+}
+
+.account-username {
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 30px;
+}
+
+.account-products_count {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 0.25px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.account-edit-profile-btn {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 1.25px;
+    color: white;
+    border: 1px solid black;
+    background-color: black;
+    padding: 8.5px 0;
+    width: 100%;
+    border-radius: 19px;
+    align-self: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.exhibited-product{
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 16px 0;
+}
+
+.product-list-container {
+    padding: 0 4vw;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+}
+
+.product-item {
+    position: relative;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-price {
+    position: absolute;
+    bottom: 0;
+    left: 6px;
+    font-size: 13px;
+    color: white;
+}
+
+.bg-green {
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    background-image: linear-gradient(135deg, #2B8F38 50%, transparent 50%);
+    border-radius: 8px 0 0 0;
+}
+
+.product-status {
+    position: absolute;
+    top: 12px;
+    font-size: 13px;
+    transform: rotate(-45deg);
+    color: white;
+}
+
+.account-profile-container {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.account-profile {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    margin-top: 16px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.more-button {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 19px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+}
